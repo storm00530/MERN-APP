@@ -9,7 +9,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {registerUser} from "../_actions/user_action"
+import {updateUser} from "../../_actions/user_action"
 import { useDispatch, useReducer } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp(props) {
+function Profile(props) {
   const dispatch = useDispatch();
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -62,10 +62,11 @@ function SignUp(props) {
     };
 
 
-    dispatch(registerUser(user))
+    dispatch(updateUser(user))
     .then(res=>{
+      console.log("res",res)
       if(res.payload.success) {
-        props.history.push('/login')
+        alert("profile updated successfully!")
       } else {
         alert("error")
       }
@@ -81,7 +82,7 @@ function SignUp(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          My Profile Info
         </Typography>
         <div className={classes.form}>
           <Grid container spacing={2}>
@@ -148,18 +149,11 @@ function SignUp(props) {
             onClick={handleSubmit}
             className={classes.submit}
           >
-            Sign Up
+            Update
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/login" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
         </div>
       </div>
     </Container>
   );
 }
-export default withRouter(SignUp)
+export default withRouter(Profile)

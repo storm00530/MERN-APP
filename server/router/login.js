@@ -12,6 +12,7 @@ router.post("/", function (req, res) {
         .json({ success: false, message: "email not found" });
 
     user.comparePassword(userData.password, (err, isMatch) => {
+      if(err) return err;
       if (!isMatch)
         return res
           .status(400)
@@ -21,7 +22,7 @@ router.post("/", function (req, res) {
         return res
           .cookie("x_auth", userInfo.token)
           .status(200)
-          .json({ success: true, message: "Login Success" });
+          .json({ success: true, ID:userInfo._id });
       });
     });
   });

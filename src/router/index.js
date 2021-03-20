@@ -10,6 +10,9 @@ import Login from '../pages/login'
 import Home from '../pages/home'
 import './index.css'
 import Success from '../pages/success'
+import Dashboard from '../pages/dashboard'
+import Profile from '../pages/user/profile'
+import Reset from '../pages/user/reset_password'
 export default function App() {
   return (
    
@@ -23,6 +26,15 @@ export default function App() {
             <Switch>
                 <Route path="/success">
                   <Success />
+                </Route>
+                <Route path="/reset">
+                  <Reset />
+                </Route>
+                <Route path="/profile">
+                  <Profile />
+                </Route>
+                <Route path="/dashboard">
+                  <Dashboard />
                 </Route>
                 <Route path="/register">
                 <Register />

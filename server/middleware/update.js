@@ -9,13 +9,9 @@ let update = (req, res, next) => {
   userModel.findByToken(token, (err, user) => {
     if (err) throw err;
     if (!user) return res.status(200).json({ isUpdate: false, error: true });
-
-    userModel.deleteOne({ _id: user._id }, function (err) {
-      if (err) return handleError(err);
-      req.update_user = req.body;
-      req.update_user.token = token;
-      next();
-    });
+    req.update_user = user;
+    next();
+   
   });
 };
 

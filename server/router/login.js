@@ -15,7 +15,7 @@ router.post("/", function (req, res) {
       if(err) return err;
       if (!isMatch)
         return res
-          .status(400)
+          .status(200)
           .json({ success: false, message: "Incorrect Password" });
       user.generateToken((err, userInfo) => {
         if (err) return res.status(400).send(err);

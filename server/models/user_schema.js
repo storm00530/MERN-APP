@@ -65,6 +65,7 @@ userModel.methods.generateToken = function (cb) {
 userModel.statics.findByToken = function (token, cb) {
   var user = this;
   jwt.verify(token, "secret", function (err, decoded) {
+    console.log("_id", decoded)
     user.findOne({ _id: decoded, token: token }, function (err, user) {
       if (err) return cb(err);
       cb(null, user);

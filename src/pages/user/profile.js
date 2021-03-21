@@ -63,7 +63,12 @@ function Profile(props) {
 
     dispatch(updateUser(user)).then((res) => {
       if (res.payload.success) {
+        const userInfo = res.payload.userInfo;
         alert("profile updated successfully!");
+        setFirstname(userInfo.firstname);
+        setLastname(userInfo.lastname);
+        setEmail(userInfo.email);
+        setPassword(userInfo.password);
       } else {
         alert("error");
       }

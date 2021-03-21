@@ -9,7 +9,7 @@ router.get("/", auth, (req, res) => {
     _id: req.user._id,
     isAuth: true,
     email: req.user.email,
-    name: req.user.firstname,
+    name: req.user.firstname+" "+req.user.lastname,
   });
 });
 

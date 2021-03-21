@@ -11,6 +11,7 @@ function Header(props) {
   const dispatch = useDispatch();
   const [menuVisible, setMenuVisible] = useState(false);
   const [isUser, setUser] = useState(false);
+  const [avatar, setUserAvatar] = useState("John Me");
 
   const handleLogout = () => {
     localStorage.setItem("auth_user", false);
@@ -176,7 +177,7 @@ function Header(props) {
                       aria-haspopup="true"
                     >
                       <span className="sr-only">Open user menu</span>
-                      <UserAvatar size="48" name="Will Binns-Smith" />
+                      <UserAvatar size="48" name={avatar} />
                     </button>
                   </div>
                   <UserMenu />
@@ -269,7 +270,7 @@ function Header(props) {
           <div className="pt-4 pb-3 border-t border-gray-700">
             <div className="flex items-center px-5">
               <div className="flex-shrink-0">
-                <UserAvatar size="48" name="Will Binns-Smith" />
+                <UserAvatar size="48" name={avatar} />
               </div>
               <div className="ml-3">
                 <div className="text-base font-medium leading-none text-white">
@@ -376,10 +377,14 @@ function Header(props) {
   const store = createStore(user);
   var auth_user = localStorage.getItem("auth_user");
   useEffect(() => {
-    console.log(store.getState());
+    console.log(store.getState().user);
     https.auth().then((res) => {
       console.log("auth", res.data.isAuth);
-      if (res.data.isAuth) setUser(true);
+      if (res.data.isAuth) {
+        setUser(true);
+        console.log(res.data.name)
+        setUserAvatar(res.data.name)
+      }
       else setUser(false);
     });
   }, [auth_user]);

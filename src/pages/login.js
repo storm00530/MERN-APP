@@ -57,7 +57,7 @@ function SignIn(props) {
         localStorage.setItem("auth_user", true);
         props.history.push("/profile");
       } else {
-        alert("error");
+        alert(res.payload.message);
       }
     });
   };

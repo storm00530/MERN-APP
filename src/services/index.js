@@ -19,12 +19,17 @@ const logout = () => {
   return http.get("/logout",{withCredentials: true, credentials: 'include'});
 };
 
+const reset_password = (data) => {
+  return http.get("/reset_password",data,{withCredentials: true, credentials: 'include'});
+};
+
 const router = {
   register,
   login,
   auth,
   logout,
-  update
+  update,
+  reset_password
 };
 
 export default router;

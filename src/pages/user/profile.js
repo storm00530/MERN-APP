@@ -9,9 +9,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {updateUser} from "../../_actions/user_action"
-import { useDispatch, useReducer } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { updateUser } from "../../_actions/user_action";
+import { useDispatch, useReducer } from "react-redux";
+import { withRouter } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -61,19 +61,15 @@ function Profile(props) {
       password: password,
     };
 
-
-    dispatch(updateUser(user))
-    .then(res=>{
-      console.log("res",res)
-      if(res.payload.success) {
-        alert("profile updated successfully!")
+    dispatch(updateUser(user)).then((res) => {
+      if (res.payload.success) {
+        alert("profile updated successfully!");
       } else {
-        alert("error")
+        alert("error");
       }
-    })
-  
+    });
   };
- 
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -156,4 +152,4 @@ function Profile(props) {
     </Container>
   );
 }
-export default withRouter(Profile)
+export default withRouter(Profile);

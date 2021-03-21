@@ -9,11 +9,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {loginUser} from "../_actions/user_action"
-import { useDispatch, useReducer } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { loginUser } from "../_actions/user_action";
+import { useDispatch, useReducer } from "react-redux";
+import { withRouter } from "react-router-dom";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -52,17 +52,16 @@ function SignIn(props) {
       password: password,
     };
 
-    dispatch(loginUser(user))
-    .then(res=>{
-      if(res.payload.success) {
-        props.history.push('/profile')
+    dispatch(loginUser(user)).then((res) => {
+      if (res.payload.success) {
+        localStorage.setItem("auth_user", true);
+        props.history.push("/profile");
       } else {
-        alert("error")
+        alert("error");
       }
-    })
-   
+    });
   };
-  
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -99,10 +98,10 @@ function SignIn(props) {
           id="password"
           autoComplete="current-password"
         />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="Remember me"
+        />
         <Button
           type="submit"
           fullWidth
@@ -115,9 +114,9 @@ function SignIn(props) {
         </Button>
         <Grid container>
           <Grid item xs>
-              <Link href="/reset" variant="body2">
-                Forgot password?
-              </Link>
+            <Link href="/reset" variant="body2">
+              Forgot password?
+            </Link>
           </Grid>
           <Grid item>
             <Link href="/register" variant="body2">
@@ -129,4 +128,4 @@ function SignIn(props) {
     </Container>
   );
 }
-export default withRouter(SignIn)
+export default withRouter(SignIn);

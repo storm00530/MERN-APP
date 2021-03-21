@@ -16,7 +16,7 @@ const update = (data) => {
 };
 
 const logout = () => {
-  return http.get("/logout");
+  return http.get("/logout",{withCredentials: true, credentials: 'include'});
 };
 
 const router = {

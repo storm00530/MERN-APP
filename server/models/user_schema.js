@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
-
+const crypto = require('crypto');
 const userModel = new Schema(
   {
     firstname: {
@@ -15,6 +15,7 @@ const userModel = new Schema(
     },
     email: {
       type: String,
+      unique: true,
     },
     password: {
       type: String,
@@ -22,6 +23,21 @@ const userModel = new Schema(
     token: {
       type: String,
     },
+    profileImage: {
+      type: String,
+      required: false,
+      max: 255
+    },
+ 
+    resetPasswordToken: {
+        type: String,
+        required: false
+    },
+
+    resetPasswordExpires: {
+        type: Date,
+        required: false
+    }
   },
   {
     collection: "users",
@@ -34,7 +50,8 @@ const userModel = new Schema(
 
 userModel.pre("save", function (next) {
   var user = this;
-  if (user.isModified("password")) {
+  if (!user.isModified("password")) return next();
+
     bcrypt.genSalt(saltRounds, function (err, salt) {
       if (err) return next(err);
       bcrypt.hash(user.password, salt, function (err, hash) {
@@ -43,10 +60,7 @@ userModel.pre("save", function (next) {
         next();
       });
     });
-  } else {
-    next();
-  }
-});
+  });
 userModel.methods.comparePassword = function (plainPassword, cb) {
   bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
@@ -65,11 +79,17 @@ userModel.methods.generateToken = function (cb) {
 userModel.statics.findByToken = function (token, cb) {
   var user = this;
   jwt.verify(token, "secret", function (err, decoded) {
-    console.log("_id", decoded)
     user.findOne({ _id: decoded, token: token }, function (err, user) {
       if (err) return cb(err);
       cb(null, user);
     });
   });
 };
+
+
+userModel.methods.generatePasswordReset = function() {
+  this.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+  this.resetPasswordExpires = Date.now() + 3600000; //expires in an hour
+};
+
 module.exports = mongoose.model("userModel", userModel);

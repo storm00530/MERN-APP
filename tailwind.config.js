@@ -10,15 +10,6 @@ module.exports = {
       lg: '976px',
       xl: '1440px',
     },
-    colors: {
-      gray: colors.coolGray,
-      blue: colors.lightBlue,
-      red: colors.rose,
-      pink: colors.fuchsia,
-    },
-    container: {
-      center: true,
-    },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
@@ -36,5 +27,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }

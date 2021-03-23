@@ -3,7 +3,6 @@ const userModel = require("../models/user_schema");
 let update = (req, res, next) => {
   var token = req.cookies.x_auth;
   const user = new userModel(req.body);
-  console.log("token", token);
   if (!token)
     return res.status(200).json({ isUpdate: false, error: "unauthorized" });
   userModel.findByToken(token, (err, user) => {
@@ -11,7 +10,6 @@ let update = (req, res, next) => {
     if (!user) return res.status(200).json({ isUpdate: false, error: true });
     req.update_user = user;
     next();
-   
   });
 };
 

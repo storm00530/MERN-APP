@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
-const userModel = require("../models/user_schema");
+const userModel = require("../../models/user_schema");
 
 router.post("/", function (req, res) {
   const userData = req.body;
@@ -12,7 +12,7 @@ router.post("/", function (req, res) {
         .json({ success: false, message: "email not found" });
 
     user.comparePassword(userData.password, (err, isMatch) => {
-      if(err) return err;
+      if (err) return err;
       if (!isMatch)
         return res
           .status(200)
@@ -22,7 +22,7 @@ router.post("/", function (req, res) {
         return res
           .cookie("x_auth", userInfo.token)
           .status(200)
-          .json({ success: true, ID:userInfo._id });
+          .json({ success: true, ID: userInfo._id });
       });
     });
   });

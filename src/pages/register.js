@@ -9,9 +9,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {registerUser} from "../_actions/user_action"
-import { useDispatch, useReducer } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { registerUser } from "../_actions/user_action";
+import { useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -61,18 +61,15 @@ function SignUp(props) {
       password: password,
     };
 
-
-    dispatch(registerUser(user))
-    .then(res=>{
-      if(res.payload.success) {
-        props.history.push('/login')
+    dispatch(registerUser(user)).then((res) => {
+      if (res.payload.success) {
+        props.history.push("/login");
       } else {
-        alert("error")
+        alert("error");
       }
-    })
-  
+    });
   };
- 
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -162,4 +159,4 @@ function SignUp(props) {
     </Container>
   );
 }
-export default withRouter(SignUp)
+export default withRouter(SignUp);

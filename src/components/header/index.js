@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { accountService } from "../../services";
 import { withRouter } from "react-router-dom";
-import { useDispatch, useReducer } from "react-redux";
+import { useDispatch, useSelector, useReducer } from "react-redux";
 import { logoutUser } from "../../_actions/user_action";
-import user from "../../_reducers";
-import { createStore } from "redux";
+import { useLocation } from "react-router-dom";
+import Breadcrumb from "../breadcrumb";
+import { Link } from "react-router-dom";
 import UserAvatar from "react-user-avatar";
 
 function Header(props) {
@@ -12,7 +13,10 @@ function Header(props) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [isUser, setUser] = useState(false);
   const [avatar, setUserAvatar] = useState("John Me");
-
+  const [crumbs, setCrumbs] = useState(["home", "dashboard"]);
+  const [account, setAccount] = useState(false);
+  const [product, setProduct] = useState(false);
+  const [customer, setCustomer] = useState(false);
   const handleLogout = () => {
     localStorage.setItem("auth_user", false);
     dispatch(logoutUser()).then((res) => {
@@ -34,30 +38,30 @@ function Header(props) {
         aria-orientation="vertical"
         aria-labelledby="user-menu"
       >
-        <a
-          href="/profile"
+        <Link
+          to="/profile"
           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           role="menuitem"
         >
           Your Profile
-        </a>
+        </Link>
 
-        <a
-          href="/setting"
+        <Link
+          to="/setting"
           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           role="menuitem"
         >
           Settings
-        </a>
+        </Link>
 
-        <a
-          href="#"
+        <Link
+          to="/"
           onClick={handleLogout}
           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           role="menuitem"
         >
           Sign out
-        </a>
+        </Link>
       </div>
     ) : (
       <></>
@@ -66,27 +70,27 @@ function Header(props) {
   const MobileUserMenu = () => {
     return menuVisible ? (
       <div className="mt-3 px-2 space-y-1">
-        <a
-          href="/profile"
+        <Link
+          to="/profile"
           className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
         >
           Your Profile
-        </a>
+        </Link>
 
-        <a
-          href="/setting"
+        <Link
+          to="/setting"
           className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
         >
           Settings
-        </a>
+        </Link>
 
-        <a
-          href="#"
+        <Link
+          to="/"
           onClick={handleLogout}
           className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
         >
           Sign out
-        </a>
+        </Link>
       </div>
     ) : (
       <></>
@@ -107,40 +111,157 @@ function Header(props) {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="/dashboard"
+                  <Link
+                    to="/dashboard"
                     className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium text-gray-50"
                   >
                     Dashboard
-                  </a>
+                  </Link>
 
-                  <a
-                    href="/team"
+                  <Link
+                    className="mx-10 flex items-center py-6 text-sm leading-5 focus:outline-none relative text-gray-300 hover:text-white rounded-md text-sm font-medium cursor-pointer "
+                    onClick={() => setAccount(!account)}
+                  >
+                    Account settings
+                    <span className="pl-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-chevron-down inline-block"
+                        width={16}
+                        height={16}
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </span>
+                    {account && (
+                      <ul className="bg-white shadow rounded mt-2 py-1 w-32 left-0 mt-40 ml-4 absolute ">
+                        <Link to="/account/listing">
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Listing Pages
+                          </li>
+                        </Link>
+                        <Link to="/account/detail">
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Detail page
+                          </li>
+                        </Link>
+                        <Link to="/account/addNew">
+                          {" "}
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Add new page
+                          </li>
+                        </Link>
+                      </ul>
+                    )}
+                  </Link>
+
+                  <Link
+                    to="/project"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    Team
-                  </a>
+                    Rep Management
+                  </Link>
 
-                  <a
-                    href="/project"
+                  <Link
+                    className="mx-10 flex items-center py-6 text-sm leading-5 focus:outline-none relative text-gray-300 hover:text-white px-3 py-6 rounded-md text-sm font-medium cursor-pointer "
+                    onClick={() => setProduct(!product)}
+                  >
+                    Products
+                    <span className="pl-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-chevron-down inline-block"
+                        width={16}
+                        height={16}
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </span>
+                    {product && (
+                      <ul className="bg-white shadow rounded mt-2 py-1 w-32 left-0 mt-40 ml-4 absolute ">
+                        <Link to="/products/listing">
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Listing Pages
+                          </li>
+                        </Link>
+                        <Link to="/products/detail">
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Detail page
+                          </li>
+                        </Link>
+                        <Link to="/products/addNew">
+                          {" "}
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Add new page
+                          </li>
+                        </Link>
+                      </ul>
+                    )}
+                  </Link>
+
+                  <Link
+                    className="mx-10 flex items-center py-6 text-sm leading-5 focus:outline-none relative text-gray-300 hover:text-white px-3 py-6 rounded-md text-sm font-medium cursor-pointer "
+                    onClick={() => setCustomer(!customer)}
+                  >
+                    Customers
+                    <span className="pl-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-chevron-down inline-block"
+                        width={16}
+                        height={16}
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </span>
+                    {customer && (
+                      <ul className="bg-white shadow rounded mt-2 py-1 w-32 left-0 mt-40 ml-4 absolute ">
+                        <Link to="/customers/listing">
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Listing Pages
+                          </li>
+                        </Link>
+                        <Link to="/customers/detail">
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Detail page
+                          </li>
+                        </Link>
+                        <Link to="/customers/addNew">
+                          {" "}
+                          <li className="cursor-pointer text-gray-600 text-sm leading-3 tracking-normal py-3 hover:bg-indigo-700 hover:text-white px-3 font-normal">
+                            Add new page
+                          </li>
+                        </Link>
+                      </ul>
+                    )}
+                  </Link>
+                  <Link
+                    to="/report"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    Projects
-                  </a>
-
-                  <a
-                    href="/calendar"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Calendar
-                  </a>
-
-                  <a
-                    href="/report"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Reports
-                  </a>
+                    Analytics
+                  </Link>
                 </div>
               </div>
             </div>
@@ -232,54 +353,47 @@ function Header(props) {
 
         <div className="md:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="#"
+            <Link
+              to="/"
               className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Dashboard
-            </a>
+            </Link>
 
-            <a
-              href="#"
+            <Link
+              to="/"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Team
-            </a>
+            </Link>
 
-            <a
-              href="#"
+            <Link
+              to="/"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Projects
-            </a>
+            </Link>
 
-            <a
-              href="#"
+            <Link
+              to="/"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Calendar
-            </a>
+            </Link>
 
-            <a
-              href="#"
+            <Link
+              to="/"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Reports
-            </a>
+            </Link>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-700">
             <div className="flex items-center px-5">
               <div className="flex-shrink-0">
                 <UserAvatar size="48" name={avatar} />
               </div>
-              <div className="ml-3">
-                <div className="text-base font-medium leading-none text-white">
-                  Tom Cook
-                </div>
-                <div className="text-sm font-medium leading-none text-gray-400">
-                  tom@example.com
-                </div>
-              </div>
+
               <button className="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span className="sr-only">View notifications</span>
 
@@ -321,26 +435,26 @@ function Header(props) {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="/"
+                  <Link
+                    to="/"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Home
-                  </a>
+                  </Link>
 
-                  <a
-                    href="/login"
+                  <Link
+                    to="/login"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Login
-                  </a>
+                  </Link>
 
-                  <a
-                    href="/register"
+                  <Link
+                    to="/register"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Register
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -349,45 +463,56 @@ function Header(props) {
 
         <div className="md:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Home
-            </a>
+            </Link>
 
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Login
-            </a>
+            </Link>
 
-            <a
-              href="/register"
+            <Link
+              to="/register"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Register
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
     );
   };
-  const store = createStore(user);
-  var auth_user = localStorage.getItem("auth_user");
+  const isAuth = useSelector((state) => state.user);
+  const location = useLocation();
+
   useEffect(() => {
-    console.log(store.getState().user);
+    const route = ("home" + location.pathname).split("/");
+    setCrumbs(route);
+  }, []);
+  useEffect(() => {
     accountService.auth().then((res) => {
-      console.log("auth", res.data.isAuth);
       if (res.data.isAuth) {
         setUser(true);
-        console.log(res.data.name);
         setUserAvatar(res.data.name);
       } else setUser(false);
     });
-  }, [auth_user]);
+  }, [isAuth]);
 
-  return isUser ? <DashboardHeader /> : <GeneralHeader />;
+  return isUser ? (
+    <>
+      <DashboardHeader /> <Breadcrumb crumbs={crumbs} />
+    </>
+  ) : (
+    <>
+      <GeneralHeader /> <Breadcrumb crumbs={crumbs} />
+    </>
+  );
 }
+
 export default withRouter(Header);

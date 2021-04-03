@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
-const userModel = require("../models/user_schema");
+const userModel = require("../../models/user_schema");
 
 router.post("/", async (req, res) => {
   const user = new userModel(req.body);

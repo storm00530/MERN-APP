@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { loginUser } from "../_actions/user_action";
-import { useDispatch, useReducer } from "react-redux";
+import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";

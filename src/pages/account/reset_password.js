@@ -17,10 +17,10 @@ function ResetPassword({ history }) {
 
   useEffect(() => {
     const { hash } = queryString.parse(window.location.search);
-    console.log(hash)
-    const data = {token:hash}
-        // remove token from url to prevent http referer leakage
-        history.replace(window.location.pathname);
+    console.log(hash);
+    const data = { token: hash };
+    // remove token from url to prevent http referer leakage
+    history.replace(window.location.pathname);
     accountService
       .validateResetToken(data)
       .then(() => {
@@ -49,11 +49,11 @@ function ResetPassword({ history }) {
 
     function onSubmit({ password }, { setSubmitting }) {
       alertService.clear();
-      const resetData = {token:token, password:password}
+      const resetData = { token: token, password: password };
       accountService
         .resetPassword(resetData)
         .then(() => {
-          alert(  "Password reset successful, you can now login." )
+          alert("Password reset successful, you can now login.");
           alertService.success(
             "Password reset successful, you can now login.",
             { keepAfterRouteChange: true }
@@ -78,7 +78,6 @@ function ResetPassword({ history }) {
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               RESET PASSWORD
             </h2>
-            
           </div>
           <Formik
             initialValues={initialValues}
@@ -87,7 +86,7 @@ function ResetPassword({ history }) {
           >
             {({ errors, touched, isSubmitting }) => (
               <Form>
-                <div className="rounded-md shadow-sm -space-y-px">   
+                <div className="rounded-md shadow-sm -space-y-px">
                   <label className="sr-only">Password</label>
                   <Field
                     name="password"
@@ -103,8 +102,8 @@ function ResetPassword({ history }) {
                     className="invalid-feedback"
                   />
                 </div>
-                <div className="rounded-md shadow-sm -space-y-px py-4">   
-                <label className="sr-only">Confirm Password</label>
+                <div className="rounded-md shadow-sm -space-y-px py-4">
+                  <label className="sr-only">Confirm Password</label>
                   <Field
                     name="confirmPassword"
                     type="password"
@@ -156,11 +155,15 @@ function ResetPassword({ history }) {
         );
       case TokenStatus.Validating:
         return <div>Validating token...</div>;
+      default:
+        return;
     }
   }
 
   return (
-      <div className="min-h-full flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">{getBody()}</div>
+    <div className="min-h-full flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {getBody()}
+    </div>
   );
 }
 export default withRouter(ResetPassword);

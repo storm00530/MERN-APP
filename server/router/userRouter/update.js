@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
-const userModel = require("../models/user_schema");
-const update = require("../middleware/update");
+const userModel = require("../../models/user_schema");
+const update = require("../../middleware/update");
 
 router.post("/", update, async (req, res) => {
   const user = new userModel(req.update_user);

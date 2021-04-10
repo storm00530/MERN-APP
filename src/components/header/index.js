@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { accountService } from "../../services";
 import { withRouter } from "react-router-dom";
-import { useDispatch, useSelector, useReducer } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../_actions/user_action";
 import { useLocation } from "react-router-dom";
 import Breadcrumb from "../breadcrumb";
@@ -18,7 +18,7 @@ function Header(props) {
   const [product, setProduct] = useState(false);
   const [customer, setCustomer] = useState(false);
   const handleLogout = () => {
-    localStorage.setItem("auth_user", false);
+
     dispatch(logoutUser()).then((res) => {
       if (res.payload.success) {
         setUser(false);
@@ -118,7 +118,7 @@ function Header(props) {
                     Dashboard
                   </Link>
 
-                  <Link
+                  <span 
                     className="mx-10 flex items-center py-6 text-sm leading-5 focus:outline-none relative text-gray-300 hover:text-white rounded-md text-sm font-medium cursor-pointer "
                     onClick={() => setAccount(!account)}
                   >
@@ -160,7 +160,7 @@ function Header(props) {
                         </Link>
                       </ul>
                     )}
-                  </Link>
+                  </span>
 
                   <Link
                     to="/project"
@@ -169,7 +169,7 @@ function Header(props) {
                     Rep Management
                   </Link>
 
-                  <Link
+                  <span
                     className="mx-10 flex items-center py-6 text-sm leading-5 focus:outline-none relative text-gray-300 hover:text-white px-3 py-6 rounded-md text-sm font-medium cursor-pointer "
                     onClick={() => setProduct(!product)}
                   >
@@ -211,9 +211,9 @@ function Header(props) {
                         </Link>
                       </ul>
                     )}
-                  </Link>
+                  </span>
 
-                  <Link
+                  <span
                     className="mx-10 flex items-center py-6 text-sm leading-5 focus:outline-none relative text-gray-300 hover:text-white px-3 py-6 rounded-md text-sm font-medium cursor-pointer "
                     onClick={() => setCustomer(!customer)}
                   >
@@ -255,7 +255,7 @@ function Header(props) {
                         </Link>
                       </ul>
                     )}
-                  </Link>
+                  </span>
                   <Link
                     to="/report"
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -494,6 +494,7 @@ function Header(props) {
   useEffect(() => {
     const route = ("home" + location.pathname).split("/");
     setCrumbs(route);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     accountService.auth().then((res) => {

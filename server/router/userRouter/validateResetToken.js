@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
 const userModel = require("../../models/user_schema");
-const auth = require("../../middleware/auth");
 
 router.post("/", (req, res) => {
-  console.log("token", req.body);
+
   userModel.findOne(
     {
       resetPasswordToken: req.body.token,

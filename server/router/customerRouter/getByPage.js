@@ -6,7 +6,7 @@ router.get("/", function (req, res) {
   const pageId = req.pageId;
   const numberPerPage = req.numberPerPage;
 
-  WooCommerce.getAsync(
+  WooCommerce.get(
     "customers?page=" +
       pageId +
       "&per_page=" +
@@ -14,11 +14,11 @@ router.get("/", function (req, res) {
       "&status=publish&orderby=registered_date&order=desc"
   )
     .then((result) => {
-      const customers = JSON.parse(result.toJSON().body);
-      if (!customers) {
+     
+      if (!result) {
         res.json({ success: false, message: "no Customers found" });
       } else {
-        res.json({ pageCustomers: customers });
+        res.json({ pageCustomers: result.data });
       }
     })
     .catch((err) => {

@@ -1,11 +1,11 @@
-const WooCommerceAPI = require("woocommerce-api");
+const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
 const credentials = require("../config/WOO_API");
-const WooCommerce = new WooCommerceAPI({
-  url: "https://store.kandykoi.com",
+const WooCommerce = new WooCommerceRestApi({
+  url: credentials.url,
   consumerKey: credentials.key,
   consumerSecret: credentials.secret,
   wpAPI: true,
-  version: "wc/v1",
+  version: "wc/v3",
 });
 
 module.exports = WooCommerce;

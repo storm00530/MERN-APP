@@ -1,75 +1,23 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Register from "../pages/register";
 import Login from "../pages/login";
 import Home from "../pages/home";
-import Dashboard from "../pages/dashboard";
+import Dashboard from "../pages/dashboard/dashboard";
 import Profile from "../pages/account/profile";
 import Reset from "../pages/account/reset_password";
 import Header from "../components/header";
 import Auth from "../hoc/auth";
 import ForgotPassword from "../pages/account/forgotPassword";
 import ResetPassword from "../pages/account/reset_password";
-import AccountSettings from "../pages/accountSettings";
+
 import ProductsRouter from "./products";
 import CustomersRouter from "./customers";
 
-const routes = [
-  {
-    path: "/",
-    component: Home,
-  },
-  {
-    path: "/profile",
-    component: Auth(Profile, true),
-  },
-  {
-    path: "/reset",
-    component: Auth(Reset, false),
-  },
-  {
-    path: "/dashboard",
-    component: Auth(Dashboard, true),
-  },
-  {
-    path: "/register",
-    component: Auth(Register, false),
-  },
-  {
-    path: "/forgot-password",
-    component: Auth(ForgotPassword, false),
-  },
-  {
-    path: "/reset-password",
-    component: Auth(ResetPassword, false),
-  },
-  {
-    path: "/login",
-    component: Auth(Login, false),
-  },
-  {
-    path: "/logout",
-    component: Auth(Login, false),
-  },
-  // {
-  //   path: "/products",
-  //   component: Tacos,
-  //   routes: [
-  //     {
-  //       path: "/products/bus",
-  //       component: Bus
-  //     },
-  //     {
-  //       path: "/products/cart",
-  //       component: Cart
-  //     }
-  //   ]
-  // }
-];
 export default function App() {
   return (
     <Router>
-      <div className="px-0 mt-4 md:px-12">
+      <div className="px-0">
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
@@ -92,6 +40,7 @@ export default function App() {
           <Route path="/customers" component={Auth(CustomersRouter, true)} />
         </Switch>
       </div>
+
     </Router>
   );
 }

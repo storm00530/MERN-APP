@@ -17,7 +17,7 @@ function ResetPassword({ history }) {
 
   useEffect(() => {
     const { hash } = queryString.parse(window.location.search);
-    console.log(hash);
+
     const data = { token: hash };
     // remove token from url to prevent http referer leakage
     history.replace(window.location.pathname);
@@ -30,6 +30,7 @@ function ResetPassword({ history }) {
       .catch(() => {
         setTokenStatus(TokenStatus.Invalid);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function getForm() {

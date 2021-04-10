@@ -6,13 +6,14 @@ export default function Pagination({ numberPerPage, total, pageChange }) {
     setPageChangeId(pageId);
   };
   const handlePrevClick = () => {
-    setPageChangeId(pageChangeId - 1);
+    if (pageChangeId > 1) setPageChangeId(pageChangeId - 1);
   };
   const handleNextClick = () => {
     setPageChangeId(pageChangeId + 1);
   };
   useEffect(() => {
     pageChange(pageChangeId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageChangeId]);
   const PaginationNumber = () => {
     var NumberRow = [];
@@ -20,7 +21,7 @@ export default function Pagination({ numberPerPage, total, pageChange }) {
       NumberRow.push(
         <a
           key={index}
-          href="#"
+          href="##"
           onClick={() => handleOnclick(index)}
           className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
@@ -28,19 +29,20 @@ export default function Pagination({ numberPerPage, total, pageChange }) {
         </a>
       );
     }
+
     return NumberRow;
   };
   return (
     <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
       <div className="flex-1 flex justify-between sm:hidden">
         <a
-          href="/"
+          href="##"
           className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
         >
           Previous
         </a>
         <a
-          href="/"
+          href="##"
           className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
         >
           Next
@@ -66,7 +68,7 @@ export default function Pagination({ numberPerPage, total, pageChange }) {
             aria-label="Pagination"
           >
             <a
-              href="#"
+              href="##"
               onClick={handlePrevClick}
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
@@ -90,9 +92,10 @@ export default function Pagination({ numberPerPage, total, pageChange }) {
             <PaginationNumber />
 
             <a
-              href="#"
+              href="##"
               onClick={handleNextClick}
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              // eslint-disable-next-line jsx-a11y/anchor-is-valid
             >
               <span className="sr-only">Next</span>
 

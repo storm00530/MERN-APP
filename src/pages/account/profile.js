@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { updateUser } from "../../_actions/user_action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,7 +36,7 @@ function Profile(props) {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("********");
 
   const classes = useStyles();
 
@@ -52,6 +52,15 @@ function Profile(props) {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
+  const userInfo = useSelector(state => state.user).UserData;
+  useEffect(() => {
+    if (userInfo) {
+      setFirstname(userInfo.name.split(" ")[0])
+      setLastname(userInfo.name.split(" ")[1])
+      setEmail(userInfo.email)
+    }
+// eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const handleSubmit = () => {
     const user = {
       firstname: firstname,

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "../../utils/spinner";
-import Pagination from "../../components/pagincation";
-import Table from "../../components/table";
+import Pagination from "../../components/pagination";
+import Table from "../../components/productTable";
 import { productService } from "../../services/productService";
 
 export default function ProductList() {
   const [isLoading, setLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
-  const [numberPerPage, setNumberPerPage] = useState(5);
+
   const [productTotal, setProductTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const numberPerPage = 5;
   const setPagechange = (pageId) => {
-    console.log("pageId:", pageId);
     setCurrentPage(pageId);
   };
 
@@ -20,6 +20,7 @@ export default function ProductList() {
     productService.getTotal().then((res) => {
       setProductTotal(res.data.allProducts);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function ProductList() {
       setRowData(res.data.pageProducts);
       setLoading(false);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
   return isLoading ? (
     <div className="flex w-screen h-auto justify-center items-center">

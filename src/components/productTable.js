@@ -1,3 +1,9 @@
+import ReactTooltip from "react-tooltip";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Link } from "react-router-dom";
+
 export default function Table({ rowData, currentPage, numberPerPage }) {
   const productNodes = rowData.map(function (product, index) {
     return (
@@ -45,16 +51,28 @@ export default function Table({ rowData, currentPage, numberPerPage }) {
           )}
         </td>
 
-        <td className="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
-          <a href="/" className="text-indigo-600 hover:text-indigo-900">
-            Edit
-          </a>
+        <td className="px-6 py-4 whitespace-nowrap text-left text-sm font-medium cursor-pointer">
+          <VisibilityIcon
+            data-tip="Preview On Store"
+            onClick={() => {
+              window.open(product.permalink);
+            }}
+          />
+          <Link to="/products/detail">
+            <EditIcon data-tip="Edit Product" />
+          </Link>
+          <DeleteIcon
+            data-tip="<p>Are you sure? <button> ok</button></p>"
+            data-html={true}
+            data-event="click"
+          />
+          <ReactTooltip html={true} />
         </td>
       </tr>
     );
   });
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col px-4 py-4">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">

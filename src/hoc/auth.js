@@ -13,6 +13,7 @@ export default function Auth(Component, option, adminRoute = null) {
           if (!option) props.history.push("/dashboard");
         }
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return <Component />;
   }

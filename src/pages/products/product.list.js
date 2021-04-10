@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "../../utils/spinner";
 import Pagination from "../../components/pagination";
-import Table from "../../components/productTable";
+import Table from "../../components/table/productTable";
 import { productService } from "../../services/productService";
 
 export default function ProductList() {

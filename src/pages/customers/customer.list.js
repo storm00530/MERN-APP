@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "../../utils/spinner";
 import Pagination from "../../components/pagination";
-import Table from "../../components/customerTable";
+import Table from "../../components/table/customerTable";
 import { customerService } from "../../services/customerService";
 
 export default function CustomerList() {

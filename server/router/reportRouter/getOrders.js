@@ -6,7 +6,6 @@ const WooCommerce = require("../../services/woocommerce");
 router.get("/", function (req, res) {
   let today = new Date();
   let start = new Date();
-    console.log("order API")
   start.setDate(today.getDate() - 7);
   WooCommerce.get("orders").then((result) => {
     if (!result.data) return res.json({ no_report: true });
